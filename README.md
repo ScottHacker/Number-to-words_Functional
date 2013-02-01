@@ -7,7 +7,7 @@ I've been looking into more Functional Programming lately, having heard about F#
 
 It was quite a bit trickier than I expected, but it was not just using a different language but a different coding paradigm.  Not being able to use mutable variables made me recognize a lot of things I took for granted, but I think in the end it made for more efficient code with less side-effects.
 
-The Idea behind the program, as before, is to take a non-negative integer and convert it into a properly formatted English sentence.  For more details on the basic program read [url=http://iam.colum.edu/students/Scott.Hacker/blog/flatpress/?x=entry:entry130102-004609]Numbers To Words[/url], as this will largely be concerned with converting it from C# to F#
+The Idea behind the program, as before, is to take a non-negative integer and convert it into a properly formatted English sentence.  For more details on the basic program read [Numbers to Words](https://github.com/ScottHacker/Number-to-words) as this will largely be concerned with converting it from C# to F#
 
 [Source](https://github.com/ScottHacker/Number-to-words/blob/master/NumbersToWords.fs)
 
@@ -18,50 +18,50 @@ The first thing to do was to convert the NumberToWord function, which managed th
 
     let NumberToWord n =
         match n with
-            &#124; 1 -> "One"
-            &#124; 2 -> "Two"
-            &#124; 3 -> "Three"
-            &#124; 4 -> "Four"
-            &#124; 5 -> "Five"
-            &#124; 6 -> "Six"
-            &#124; 7 -> "Seven"
-            &#124; 8 -> "Eight"
-            &#124; 9 -> "Nine"
-            &#124; 10 -> "Ten"
-            &#124; 11 -> "Eleven"
-            &#124; 12 -> "Twelve"
-            &#124; 13 -> "Thirteen"
-            &#124; 14 -> "Fourteen"
-            &#124; 15 -> "Fifteen"
-            &#124; 16 -> "Sixteen"
-            &#124; 17 -> "Seventeen"
-            &#124; 18 -> "Eighteen"
-            &#124; 19 -> "Nineteen"
-            &#124; 20 -> "Twenty"
-            &#124; _ when n > 20 && n < 30 -> "Twenty-"
-            &#124; 30 -> "Thirty"
-            &#124; _ when n > 30 && n < 40 -> "Thirty-"
-            &#124; 40 -> "Fourty"
-            &#124; _ when n > 40 && n < 50 -> "Fourty-"
-            &#124; 50 -> "Fifty"
-            &#124; _ when n > 50 && n < 60 -> "Fifty-"
-            &#124; 60 -> "Sixty"
-            &#124; _ when n > 60 && n < 70 -> "Sixty-"
-            &#124; 70 -> "Seventy"
-            &#124; _ when n > 70 && n < 80 -> "Seventy-"
-            &#124; 80 -> "Eighty"
-            &#124; _ when n > 80 && n < 90 -> "Eighty-"
-            &#124; 90 -> "Ninety"
-            &#124; _ when n > 90 && n < 100 -> "Ninety-"
-            &#124; _ -> null
+            | 1 -> "One"
+            | 2 -> "Two"
+            | 3 -> "Three"
+            | 4 -> "Four"
+            | 5 -> "Five"
+            | 6 -> "Six"
+            | 7 -> "Seven"
+            | 8 -> "Eight"
+            | 9 -> "Nine"
+            | 10 -> "Ten"
+            | 11 -> "Eleven"
+            | 12 -> "Twelve"
+            | 13 -> "Thirteen"
+            | 14 -> "Fourteen"
+            | 15 -> "Fifteen"
+            | 16 -> "Sixteen"
+            | 17 -> "Seventeen"
+            | 18 -> "Eighteen"
+            | 19 -> "Nineteen"
+            | 20 -> "Twenty"
+            | _ when n > 20 && n < 30 -> "Twenty-"
+            | 30 -> "Thirty"
+            | _ when n > 30 && n < 40 -> "Thirty-"
+            | 40 -> "Fourty"
+            | _ when n > 40 && n < 50 -> "Fourty-"
+            | 50 -> "Fifty"
+            | _ when n > 50 && n < 60 -> "Fifty-"
+            | 60 -> "Sixty"
+            | _ when n > 60 && n < 70 -> "Sixty-"
+            | 70 -> "Seventy"
+            | _ when n > 70 && n < 80 -> "Seventy-"
+            | 80 -> "Eighty"
+            | _ when n > 80 && n < 90 -> "Eighty-"
+            | 90 -> "Ninety"
+            | _ when n > 90 && n < 100 -> "Ninety-"
+            | _ -> null
 
 Next is to convert the function that gets the "length" of an integer.  The original one used a while loop, but loops are pretty much out due to mutable values, so I use a recursive function.  This will keep dividing by 10 and calling itself until the results are under 10, at which point it'll add all the numbers on the stack and return the total.
 
     let rec GetLength n =
         let length = 1;
         match n with
-        &#124; _ when n >= 10 -> length + GetLength (n/10)
-        &#124; _ -> length
+        | _ when n >= 10 -> length + GetLength (n/10)
+        | _ -> length
 
 Once we have that, I can make a function that will take a number and split it into groups of threes.  This is another recursive function, since the original version of this required a for loop to grab them all.  I use the basic Math libraries to do the Power of math instead of making my own to save a bit of space, and use that to get each group.  The format that this returns is one of the other nice things about F#, as it uses Tuples, which are basically a list of various types (for example: one tuple may be (string, int) ).  I use tuples here so I can keep track of which number the group is in a list for later use. So each run of this function will prepend a tuple to a list then return the list when done.  For example, plugging in 123456789 will return [(123, 2); (456, 1); (789, 0)]
 
@@ -71,8 +71,8 @@ Once we have that, I can make a function that will take a number and split it in
         let power = int(System.Math.Pow(1000.0, float(e)))
         let group = n / power
         match length with
-        &#124; _ when length > 3 -> (group, e) :: GetGroups (n - group * power)
-        &#124; _ -> [(group, 0)]
+        | _ when length > 3 -> (group, e) :: GetGroups (n - group * power)
+        | _ -> [(group, 0)]
 
 Now that I have a function to turn any function that will turn any number from 1-100 into a word and a function that will break a big number into groups of threes, I can start doing the real work.  Unlike the C# version, I decided to try and keep the string building to one function as much as I could, then do one print line of the results at the end.  This function will build the words only, I'll do punctuation in a later function.  
 
@@ -84,16 +84,16 @@ Now the final part, which matches the variable "i" to the appropriate number.  I
 
 Once that's done, all we have to do is return the list.  If we plugged (12, 1) into this, then it would return ["Twelve"; " Thousand"], whereas putting in (345, 0) would return ["Three"; " Hundred"; " and "; "Fourty-Five"; ""].  The extra empty string is due to the "_" in AddSize, which is a wildcard for all values that the ones I supplied didn't cover.  It will just come up as an empty string here, so it won't cause us any problems when we put it all together.
 
-    let rec GetWords (n, g) =
-        let i = int(System.Math.Pow(10.0, float(GetLength n - 1)))
-        let words = []
-        let AddSize = match g with &#124; 3 -> " Billion" &#124; 2 -> " Million" &#124; 1 -> " Thousand" &#124; _ -> ""
-        let words = match i with
-                    &#124; 100 -> words @ [NumberToWord(n/i); " Hundred"] @ if n % i > 0 then [" and "] @ GetWords((n%i), g) else [AddSize]
-                    &#124; 10 -> words @ [NumberToWord n + (if n > 20 then NumberToWord (n%i) else ""); AddSize]
-                    &#124; 1 -> words @ if g = 0 then [NumberToWord n] else [NumberToWord n; AddSize]
-                    &#124; _ -> words
-        words
+        let rec GetWords (n, g) =
+            let i = int(System.Math.Pow(10.0, float(GetLength n - 1)))
+            let words = []
+            let AddSize = match g with | 3 -> " Billion" | 2 -> " Million" | 1 -> " Thousand" | _ -> ""
+            let words = match i with
+                        | 100 -> words @ [NumberToWord(n/i); " Hundred"] @ if n % i > 0 then [" and "] @ GetWords((n%i), g) else [AddSize]
+                        | 10 -> words @ [NumberToWord n + (if n > 20 then NumberToWord (n%i) else ""); AddSize]
+                        | 1 -> words @ if g = 0 then [NumberToWord n] else [NumberToWord n; AddSize]
+                        | _ -> words
+            words
 
 Now for the final and main function that glues it all together with proper punctuation.  I named this one "Say" so that typing it into Visual Studio's F# interactive would come out as something like "Say 12345".
 
@@ -105,20 +105,20 @@ Now that we're done with that, we have a single dimensional list with all the wo
 
 Once that's done, all we have to do is print the string with a line break and it's finished!
 
-    let Say n =
-        let wordGroups = match n with
-                            &#124; _ when n > 0 -> List.map GetWords (GetGroups n)
-                            &#124; _ -> [["Zero"]]
-    
-        let wordList = []
-        let rec buildList (groups:string list list) =
-            wordList @ groups.Head @ 
-                    if groups.Tail.Length = 0 &#124;&#124; groups.Tail.Head.Head = null then ["."] 
-                    else 
-                        (if groups.Tail.Length = 1 && groups.Tail.Head.Length = 1 then [" and "] else [", "]) @ (buildList groups.Tail)
-        let wordList = buildList wordGroups
-    
-        let sentence = ""
-        let rec buildSentence (words: string list) =
-            sentence + words.Head + if words.Tail.Length > 0 then (buildSentence words.Tail) else ""
-        printf "%sn" (buildSentence wordList)
+        let Say n =
+            let wordGroups = match n with
+                                | _ when n > 0 -> List.map GetWords (GetGroups n)
+                                | _ -> [["Zero"]]
+        
+            let wordList = []
+            let rec buildList (groups:string list list) =
+                wordList @ groups.Head @ 
+                        if groups.Tail.Length = 0 || groups.Tail.Head.Head = null then ["."] 
+                        else 
+                            (if groups.Tail.Length = 1 && groups.Tail.Head.Length = 1 then [" and "] else [", "]) @ (buildList groups.Tail)
+            let wordList = buildList wordGroups
+        
+            let sentence = ""
+            let rec buildSentence (words: string list) =
+                sentence + words.Head + if words.Tail.Length > 0 then (buildSentence words.Tail) else ""
+            printf "%sn" (buildSentence wordList)
