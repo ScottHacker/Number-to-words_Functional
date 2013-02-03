@@ -9,7 +9,7 @@ It was quite a bit trickier than I expected, but it was not just using a differe
 
 The Idea behind the program, as before, is to take a non-negative integer and convert it into a properly formatted English sentence.  For more details on the basic program read [Numbers to Words](https://github.com/ScottHacker/Number-to-words) as this will largely be concerned with converting it from C# to F#
 
-[Source](https://github.com/ScottHacker/Number-to-words/blob/master/NumbersToWords.fs)
+[Source](https://github.com/ScottHacker/Number-to-words_Functional/blob/master/NumbersToWords.fs)
 
 How I did it
 -------------
